@@ -1,3 +1,8 @@
+/**
+ * Author: V. Ganesh 
+ * License: MIT 
+ */
+
 /** molecule module consists of basic structs: Atom, AtomGroup, Molecule */
 use crate::atom::Atom;
 use crate::bond::Bond;

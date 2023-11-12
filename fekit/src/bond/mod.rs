@@ -1,3 +1,8 @@
+/**
+ * Author: V. Ganesh 
+ * License: MIT 
+ */
+
 use crate::atom::Atom;
 
 /** BondType and Bond structs and methods */

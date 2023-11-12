@@ -1,3 +1,8 @@
+/**
+ * Author: V. Ganesh 
+ * License: MIT 
+ */
+
 use crate::point::Point;
 
 /** Atom is the primary struct used to define an AtomGroup or a Molecule */

@@ -1,3 +1,8 @@
+/**
+ * Author: V. Ganesh 
+ * License: MIT 
+ */
+
 /** point module, Point struct and methods */
 
 /** Point - represents a point in space */

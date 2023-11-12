@@ -1,3 +1,8 @@
+/**
+ * Author: V. Ganesh 
+ * License: MIT 
+ */
+
 pub mod point;
 pub mod atom;
 pub mod bond;
