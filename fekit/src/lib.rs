@@ -1,3 +1,6 @@
+pub mod point;
+pub mod atom;
+pub mod bond;
 pub mod molecule;
 
 mod my_math {
