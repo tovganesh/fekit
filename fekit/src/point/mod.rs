@@ -9,6 +9,73 @@ pub struct Point {
     pub z: f32,
 }
 
+#[allow(dead_code)]
+impl Point {
+    pub fn add(&mut self, v: f32) -> Point {
+        return Point {
+            x: self.x + v,
+            y: self.y + v,
+            z: self.z + v
+        };
+    }
+
+    pub fn sub(&mut self, v: f32) -> Point {
+        return Point {
+            x: self.x - v,
+            y: self.y - v,
+            z: self.z - v
+        };
+    }
+
+    pub fn mul(&mut self, v: f32) -> Point {
+        return Point {
+            x: self.x * v,
+            y: self.y * v,
+            z: self.z * v
+        };
+    }
+
+    pub fn div(&mut self, v: f32) -> Point {
+        return Point {
+            x: self.x / v,
+            y: self.y / v,
+            z: self.z / v
+        };
+    }
+
+    pub fn add_point(&mut self, pt: Point) -> Point {
+        return Point {
+            x: self.x + pt.x,
+            y: self.y + pt.y,
+            z: self.z + pt.z
+        };
+    }
+
+    pub fn sub_point(&mut self, pt: Point) -> Point {
+        return Point {
+            x: self.x - pt.x,
+            y: self.y - pt.y,
+            z: self.z - pt.z
+        };
+    }
+
+    pub fn mul_point(&mut self, pt: Point) -> Point {
+        return Point {
+            x: self.x * pt.x,
+            y: self.y * pt.y,
+            z: self.z * pt.z
+        };
+    }
+
+    pub fn div_point(&mut self, pt: Point) -> Point {
+        return Point {
+            x: self.x / pt.x,
+            y: self.y / pt.y,
+            z: self.z / pt.z
+        };
+    }
+}
+
 /** Unit tests for the above module */
 #[cfg(test)]
 mod tests {
@@ -19,5 +86,63 @@ mod tests {
         assert_eq!(point.x, 0.0);
         assert_eq!(point.y, 0.0);
         assert_eq!(point.z, 0.0);
+    }
+
+    #[test]
+    fn point_sclar_fn() {
+        let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 };
+        let v1 = 1.0;
+
+        let add_pt = pt1.add(v1);
+        assert_eq!(add_pt.x, 1.0);
+        assert_eq!(add_pt.y, 1.0);
+        assert_eq!(add_pt.z, 1.0);
+
+        let sub_pt = pt1.sub(v1);
+        assert_eq!(sub_pt.x, -1.0);
+        assert_eq!(sub_pt.y, -1.0);
+        assert_eq!(sub_pt.z, -1.0);
+
+        let mut pt2 = super::Point { x: 1.0, y: 0.0, z: -1.0 };
+        let v2 = 2.0;
+
+        let mul_pt = pt2.mul(v2);
+        assert_eq!(mul_pt.x, 2.0);
+        assert_eq!(mul_pt.y, 0.0);
+        assert_eq!(mul_pt.z, -2.0);
+
+        let div_pt = pt2.div(v2);
+        assert_eq!(div_pt.x, 0.5);
+        assert_eq!(div_pt.y, 0.0);
+        assert_eq!(div_pt.z, -0.5);
+    }
+
+    #[test]
+    fn point_vec_fn() {
+        let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 };
+        let v1 = super::Point { x: 1.0, y: 1.0, z: 1.0 }; 
+
+        let add_pt = pt1.add_point(v1);
+        assert_eq!(add_pt.x, 1.0);
+        assert_eq!(add_pt.y, 1.0);
+        assert_eq!(add_pt.z, 1.0);
+
+        let sub_pt = pt1.sub_point(v1);
+        assert_eq!(sub_pt.x, -1.0);
+        assert_eq!(sub_pt.y, -1.0);
+        assert_eq!(sub_pt.z, -1.0);
+
+        let mut pt2 = super::Point { x: 1.0, y: 0.0, z: -1.0 };
+        let v2 = super::Point { x: 2.0, y: 2.0, z: 2.0 };
+
+        let mul_pt = pt2.mul_point(v2);
+        assert_eq!(mul_pt.x, 2.0);
+        assert_eq!(mul_pt.y, 0.0);
+        assert_eq!(mul_pt.z, -2.0);
+
+        let div_pt = pt2.div_point(v2);
+        assert_eq!(div_pt.x, 0.5);
+        assert_eq!(div_pt.y, 0.0);
+        assert_eq!(div_pt.z, -0.5);
     }
 }
