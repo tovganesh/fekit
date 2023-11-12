@@ -96,4 +96,56 @@ mod tests {
         assert_eq!(atom.symbol, "H".to_string());
         assert_eq!(atom.remark, "A Hydrogen Atom".to_string());
     }
+
+    #[test]
+    fn atom_group_init() {
+        let atom_group: super::AtomGroup =
+            super::AtomGroup::new("OH".to_string(), "Alcohol".to_string());
+
+        assert_eq!(atom_group.name, "OH".to_string());
+        assert_eq!(atom_group.remark, "Alcohol".to_string());
+    }
+
+    #[test]
+    fn atom_group_fn() {
+        let mut atom_group: super::AtomGroup =
+            super::AtomGroup::new("OH".to_string(), "Alcohol".to_string());
+
+        atom_group.add_atom(super::Atom {
+            center: Point {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "Hydrogen Atom".to_string(),
+        });
+        atom_group.add_atom(super::Atom {
+            center: Point {
+                x: 1.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            charge: 0.0,
+            symbol: "O".to_string(),
+            remark: "Oxygen Atom".to_string(),
+        });
+
+        let atom_1 = atom_group.get_atom(0);
+        assert_eq!(atom_1.center.x, 0.0);
+        assert_eq!(atom_1.center.y, 0.0);
+        assert_eq!(atom_1.center.z, 0.0);
+        assert_eq!(atom_1.charge, 0.0);
+        assert_eq!(atom_1.symbol, "H".to_string());
+        assert_eq!(atom_1.remark, "Hydrogen Atom".to_string());
+
+        let atom_2 = atom_group.get_atom(1);
+        assert_eq!(atom_2.center.x, 1.0);
+        assert_eq!(atom_2.center.y, 0.0);
+        assert_eq!(atom_2.center.z, 0.0);
+        assert_eq!(atom_2.charge, 0.0);
+        assert_eq!(atom_2.symbol, "O".to_string());
+        assert_eq!(atom_2.remark, "Oxygen Atom".to_string());
+    }
 }

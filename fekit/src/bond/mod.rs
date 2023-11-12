@@ -9,6 +9,7 @@ pub enum BondType {
     DOUBLE,
     TRIPLE,
     AROMATIC,
+    COORDINATE,
     WEAK,
 }
 
