@@ -26,6 +26,13 @@ impl Clone for Atom {
     }
 }
 
+#[allow(dead_code)]
+impl Atom {
+    pub fn distance_from(&mut self, at: Atom) -> f32 {
+        return self.center.distance_from(at.center);
+    }
+}
+
 /** AtomGroup is a collection of atoms with specific name */
 #[allow(dead_code)]
 pub struct AtomGroup {
@@ -101,6 +108,34 @@ mod tests {
         assert_eq!(atom.symbol, "H".to_string());
         assert_eq!(atom.remark, "A Hydrogen Atom".to_string());
     }
+
+    #[test]
+    fn atom_fn() {
+        let mut at1 = super::Atom {
+            center: Point {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "A Hydrogen Atom".to_string(),
+        };
+        let at2 = super::Atom {
+            center: Point {
+                x: 1.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "A Hydrogen Atom".to_string(),
+        };  
+
+        let dist = at1.distance_from(at2);
+        assert_eq!(dist, 1.0);        
+    }
+
 
     #[test]
     fn atom_group_init() {

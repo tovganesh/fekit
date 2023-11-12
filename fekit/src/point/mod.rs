@@ -72,12 +72,26 @@ impl Point {
         };
     }
 
+    pub fn sqr_point(&mut self) -> Point {
+        return Point {
+            x: self.x * self.x,
+            y: self.y * self.y,
+            z: self.z * self.z
+        };
+    }
+
     pub fn div_point(&mut self, pt: Point) -> Point {
         return Point {
             x: self.x / pt.x,
             y: self.y / pt.y,
             z: self.z / pt.z
         };
+    }
+
+    pub fn distance_from(&mut self, pt: Point) -> f32 {
+        let new_pt = self.sub_point(pt).sqr_point();
+
+        return (new_pt.x + new_pt.y + new_pt.z).sqrt();
     }
 }
 
@@ -149,5 +163,19 @@ mod tests {
         assert_eq!(div_pt.x, 0.5);
         assert_eq!(div_pt.y, 0.0);
         assert_eq!(div_pt.z, -0.5);
+    }
+
+    #[test]
+    fn point_dist_fn() {
+        let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 }; 
+        let mut pt2 = super::Point { x: 1.0, y: 0.0, z: 0.0 };
+
+        let sq_pt = pt2.sqr_point();
+        assert_eq!(sq_pt.x, 1.0);
+        assert_eq!(sq_pt.y, 0.0);
+        assert_eq!(sq_pt.z, 0.0); 
+
+        let dist = pt1.distance_from(pt2);
+        assert_eq!(dist, 1.0);
     }
 }
