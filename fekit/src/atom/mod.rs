@@ -35,6 +35,7 @@ impl Atom {
 
 /** AtomGroup is a collection of atoms with specific name */
 #[allow(dead_code)]
+#[derive(Default, PartialEq, Debug)]
 pub struct AtomGroup {
     pub name: String,
     pub remark: String,
@@ -56,6 +57,10 @@ impl AtomGroup {
         self.atom_list.push(atom)
     }
 
+    pub fn get_number_of_atoms(&mut self) -> usize {
+        return self.atom_list.len();
+    }
+
     pub fn get_atom(&mut self, index: usize) -> Atom {
         return Atom {
             center: self.atom_list[index].center,
@@ -66,10 +71,17 @@ impl AtomGroup {
     }
 
     pub fn remove_atom(&mut self, index: usize) -> Atom {
-        self.atom_list.remove(index)
+        let removed_atom = self.atom_list.remove(index);
+
+        return Atom {
+            center: removed_atom.center,
+            symbol: removed_atom.symbol.to_string(),
+            charge: removed_atom.charge,
+            remark: removed_atom.remark.to_string()
+        };
     }
 
-    pub fn index_of(&mut self, atom: Atom) -> usize {
+    pub fn index_of(&mut self, atom: &mut Atom) -> usize {
         return self
             .atom_list
             .iter()
@@ -172,7 +184,7 @@ mod tests {
             remark: "Oxygen Atom".to_string(),
         });
 
-        let atom_1 = atom_group.get_atom(0);
+        let mut atom_1 = atom_group.get_atom(0);
         assert_eq!(atom_1.center.x, 0.0);
         assert_eq!(atom_1.center.y, 0.0);
         assert_eq!(atom_1.center.z, 0.0);
@@ -180,12 +192,26 @@ mod tests {
         assert_eq!(atom_1.symbol, "H".to_string());
         assert_eq!(atom_1.remark, "Hydrogen Atom".to_string());
 
-        let atom_2 = atom_group.get_atom(1);
+        let mut atom_2 = atom_group.get_atom(1);
         assert_eq!(atom_2.center.x, 1.0);
         assert_eq!(atom_2.center.y, 0.0);
         assert_eq!(atom_2.center.z, 0.0);
         assert_eq!(atom_2.charge, 0.0);
         assert_eq!(atom_2.symbol, "O".to_string());
         assert_eq!(atom_2.remark, "Oxygen Atom".to_string());
+
+        assert_eq!(atom_group.index_of(&mut atom_1), 0);
+        assert_eq!(atom_group.index_of(&mut atom_2), 1);
+
+        assert_eq!(atom_group.get_number_of_atoms(), 2);
+
+        let removed_atom = atom_group.remove_atom(0);
+        assert_eq!(removed_atom.center.x, atom_1.center.x);
+        assert_eq!(removed_atom.center.y, atom_1.center.y);
+        assert_eq!(removed_atom.center.z, atom_1.center.z);
+        assert_eq!(removed_atom.charge, atom_1.charge);
+        assert_eq!(removed_atom.symbol, atom_1.symbol);
+
+        assert_eq!(atom_group.get_number_of_atoms(), 1);
     }
 }
