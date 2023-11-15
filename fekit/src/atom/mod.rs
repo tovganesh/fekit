@@ -33,6 +33,16 @@ impl Atom {
     }
 }
 
+/** atom list operations trait */
+#[allow(dead_code)]
+pub trait AtomOperations {
+    fn add_atom(&mut self, atom: Atom);
+    fn remove_atom(&mut self, index: usize) -> Atom;
+    fn get_number_of_atoms(&mut self) -> usize;
+    fn get_atom(&mut self, index: usize) -> Atom;
+    fn index_of(&mut self, atom: &mut Atom) -> usize;
+}
+
 /** AtomGroup is a collection of atoms with specific name */
 #[allow(dead_code)]
 #[derive(Default, PartialEq, Debug)]
@@ -52,16 +62,19 @@ impl AtomGroup {
             atom_list: Vec::new(),
         }
     }
+}
 
-    pub fn add_atom(&mut self, atom: Atom) {
+#[allow(dead_code)]
+impl AtomOperations for AtomGroup {
+    fn add_atom(&mut self, atom: Atom) {
         self.atom_list.push(atom)
     }
 
-    pub fn get_number_of_atoms(&mut self) -> usize {
+    fn get_number_of_atoms(&mut self) -> usize {
         return self.atom_list.len();
     }
 
-    pub fn get_atom(&mut self, index: usize) -> Atom {
+    fn get_atom(&mut self, index: usize) -> Atom {
         return Atom {
             center: self.atom_list[index].center,
             symbol: self.atom_list[index].symbol.to_string(),
@@ -70,7 +83,7 @@ impl AtomGroup {
         };
     }
 
-    pub fn remove_atom(&mut self, index: usize) -> Atom {
+    fn remove_atom(&mut self, index: usize) -> Atom {
         let removed_atom = self.atom_list.remove(index);
 
         return Atom {
@@ -81,7 +94,7 @@ impl AtomGroup {
         };
     }
 
-    pub fn index_of(&mut self, atom: &mut Atom) -> usize {
+    fn index_of(&mut self, atom: &mut Atom) -> usize {
         return self
             .atom_list
             .iter()
@@ -100,6 +113,7 @@ impl AtomGroup {
 #[cfg(test)]
 mod tests {
     use crate::point::Point;
+    use super::AtomOperations;
 
     #[test]
     fn atom_init() {

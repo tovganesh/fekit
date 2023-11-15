@@ -8,6 +8,7 @@ use crate::atom::Atom;
 use crate::bond::Bond;
 use crate::bond::BondIndex;
 use crate::bond::BondType;
+use crate::atom::AtomOperations;
 
 #[allow(dead_code)]
 pub struct Molecule {
@@ -29,40 +30,12 @@ impl Molecule {
         }
     }
 
-    pub fn add_atom(&mut self, atom: Atom) {
-        self.atom_list.push(atom);
-    }
-
     pub fn add_bond(&mut self, atom_1_idx: usize, atom_2_idx: usize, bond_type: BondType) {
         self.bond_list.push(BondIndex {
             atom_1_idx: atom_1_idx,
             atom_2_idx: atom_2_idx,
             bond_type: bond_type,
         });
-    }
-
-    pub fn get_number_of_atoms(&mut self) -> usize {
-        return self.atom_list.len();
-    }
-
-    pub fn get_atom(&mut self, index: usize) -> Atom {
-        return Atom {
-            center: self.atom_list[index].center,
-            symbol: self.atom_list[index].symbol.to_string(),
-            charge: self.atom_list[index].charge,
-            remark: self.atom_list[index].remark.to_string(),
-        };
-    }
-
-    pub fn remove_atom(&mut self, index: usize) -> Atom {
-        let removed_atom = self.atom_list.remove(index);
-
-        return Atom {
-            center: removed_atom.center,
-            symbol: removed_atom.symbol.to_string(),
-            charge: removed_atom.charge,
-            remark: removed_atom.remark.to_string(),
-        };
     }
 
     pub fn get_bond(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> Bond {
@@ -80,8 +53,39 @@ impl Molecule {
             bond_type: self.bond_list[bond_idx].bond_type,
         };
     }
+}
 
-    pub fn index_of(&mut self, atom: &mut Atom) -> usize {
+#[allow(dead_code)]
+impl AtomOperations for Molecule { 
+    fn add_atom(&mut self, atom: Atom) {
+        self.atom_list.push(atom);
+    }
+
+    fn get_number_of_atoms(&mut self) -> usize {
+        return self.atom_list.len();
+    }
+
+    fn get_atom(&mut self, index: usize) -> Atom {
+        return Atom {
+            center: self.atom_list[index].center,
+            symbol: self.atom_list[index].symbol.to_string(),
+            charge: self.atom_list[index].charge,
+            remark: self.atom_list[index].remark.to_string(),
+        };
+    }
+
+    fn remove_atom(&mut self, index: usize) -> Atom {
+        let removed_atom = self.atom_list.remove(index);
+
+        return Atom {
+            center: removed_atom.center,
+            symbol: removed_atom.symbol.to_string(),
+            charge: removed_atom.charge,
+            remark: removed_atom.remark.to_string(),
+        };
+    }
+
+    fn index_of(&mut self, atom: &mut Atom) -> usize {
         return self
             .atom_list
             .iter()
@@ -102,6 +106,7 @@ mod tests {
     use crate::atom::Atom;
     use crate::bond::BondType;
     use crate::point::Point;
+    use crate::atom::AtomOperations;
 
     #[test]
     fn molecule_init() {
