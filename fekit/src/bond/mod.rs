@@ -26,6 +26,14 @@ pub struct Bond {
     pub bond_type: BondType,
 }
 
+#[allow(dead_code)]
+#[derive(Clone, PartialEq, Debug)]
+pub struct BondIndex {
+    pub atom_1_idx: usize,
+    pub atom_2_idx: usize,
+    pub bond_type: BondType,
+}
+
 /** Unit tests for the above module */
 #[cfg(test)]
 mod tests {
