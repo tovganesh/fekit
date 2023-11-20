@@ -48,7 +48,7 @@ impl Point {
         };
     }
 
-    pub fn add_point(&mut self, pt: Point) -> Point {
+    pub fn add_point(&mut self, pt: &Point) -> Point {
         return Point {
             x: self.x + pt.x,
             y: self.y + pt.y,
@@ -56,7 +56,7 @@ impl Point {
         };
     }
 
-    pub fn sub_point(&mut self, pt: Point) -> Point {
+    pub fn sub_point(&mut self, pt: &Point) -> Point {
         return Point {
             x: self.x - pt.x,
             y: self.y - pt.y,
@@ -64,7 +64,7 @@ impl Point {
         };
     }
 
-    pub fn mul_point(&mut self, pt: Point) -> Point {
+    pub fn mul_point(&mut self, pt: &Point) -> Point {
         return Point {
             x: self.x * pt.x,
             y: self.y * pt.y,
@@ -80,7 +80,7 @@ impl Point {
         };
     }
 
-    pub fn div_point(&mut self, pt: Point) -> Point {
+    pub fn div_point(&mut self, pt: &Point) -> Point {
         return Point {
             x: self.x / pt.x,
             y: self.y / pt.y,
@@ -88,7 +88,7 @@ impl Point {
         };
     }
 
-    pub fn distance_from(&mut self, pt: Point) -> f32 {
+    pub fn distance_from(&mut self, pt: &Point) -> f32 {
         let new_pt = self.sub_point(pt).sqr_point();
 
         return (new_pt.x + new_pt.y + new_pt.z).sqrt();
@@ -141,12 +141,12 @@ mod tests {
         let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 };
         let v1 = super::Point { x: 1.0, y: 1.0, z: 1.0 }; 
 
-        let add_pt = pt1.add_point(v1);
+        let add_pt = pt1.add_point(&v1);
         assert_eq!(add_pt.x, 1.0);
         assert_eq!(add_pt.y, 1.0);
         assert_eq!(add_pt.z, 1.0);
 
-        let sub_pt = pt1.sub_point(v1);
+        let sub_pt = pt1.sub_point(&v1);
         assert_eq!(sub_pt.x, -1.0);
         assert_eq!(sub_pt.y, -1.0);
         assert_eq!(sub_pt.z, -1.0);
@@ -154,12 +154,12 @@ mod tests {
         let mut pt2 = super::Point { x: 1.0, y: 0.0, z: -1.0 };
         let v2 = super::Point { x: 2.0, y: 2.0, z: 2.0 };
 
-        let mul_pt = pt2.mul_point(v2);
+        let mul_pt = pt2.mul_point(&v2);
         assert_eq!(mul_pt.x, 2.0);
         assert_eq!(mul_pt.y, 0.0);
         assert_eq!(mul_pt.z, -2.0);
 
-        let div_pt = pt2.div_point(v2);
+        let div_pt = pt2.div_point(&v2);
         assert_eq!(div_pt.x, 0.5);
         assert_eq!(div_pt.y, 0.0);
         assert_eq!(div_pt.z, -0.5);
@@ -175,7 +175,7 @@ mod tests {
         assert_eq!(sq_pt.y, 0.0);
         assert_eq!(sq_pt.z, 0.0); 
 
-        let dist = pt1.distance_from(pt2);
+        let dist = pt1.distance_from(&pt2);
         assert_eq!(dist, 1.0);
     }
 }

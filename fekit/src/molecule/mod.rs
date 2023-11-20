@@ -53,6 +53,24 @@ impl Molecule {
             bond_type: self.bond_list[bond_idx].bond_type,
         };
     }
+
+    pub fn compute_simple_bonds(&mut self) {
+        const SINGLE_BOND_DIST_THRESHOLD: f32 = 1.5;
+
+        // iterate through all the atoms and compute bonds based on distance between atoms
+        for i in 0..self.atom_list.len() {
+            for j in i + 1..self.atom_list.len() {
+                let at_j_center = self.atom_list[j].center;
+                let dist = self.atom_list[i].center.distance_from(&at_j_center);
+
+
+                if dist < SINGLE_BOND_DIST_THRESHOLD {
+                    self.add_bond(i, j, BondType::SINGLE);
+                    self.add_bond(j, i, BondType::SINGLE);
+                }
+            }
+        }
+    }
 }
 
 #[allow(dead_code)]
@@ -155,6 +173,50 @@ mod tests {
 
         mol.add_bond(0, 1, BondType::SINGLE);
         mol.add_bond(0, 2, BondType::SINGLE);
+
+        let bond1 = mol.get_bond(0, 1);
+        assert_eq!(bond1.bond_type, BondType::SINGLE);
+
+        let bond2 = mol.get_bond(0, 2);
+        assert_eq!(bond2.bond_type, BondType::SINGLE);
+    }
+
+    #[test]
+    fn molecule_compute_simple_bonds() {
+        let mut mol = super::Molecule::new("H2O".to_string(), "Water Molecule".to_string());
+
+        mol.add_atom(Atom {
+            center: Point {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            charge: 0.0,
+            symbol: "O".to_string(),
+            remark: "Oxygen Atom".to_string(),
+        });
+        mol.add_atom(Atom {
+            center: Point {
+                x: 0.758602,
+                y: 0.0,
+                z: 0.504284,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "Hydrogen Atom".to_string(),
+        });
+        mol.add_atom(Atom {
+            center: Point {
+                x: 0.758602,
+                y: 0.0,
+                z: -0.504284,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "Hydrogen Atom".to_string(),
+        });
+
+        mol.compute_simple_bonds();
 
         let bond1 = mol.get_bond(0, 1);
         assert_eq!(bond1.bond_type, BondType::SINGLE);
