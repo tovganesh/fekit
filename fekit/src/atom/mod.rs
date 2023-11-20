@@ -29,7 +29,7 @@ impl Clone for Atom {
 #[allow(dead_code)]
 impl Atom {
     pub fn distance_from(&mut self, at: Atom) -> f32 {
-        return self.center.distance_from(at.center);
+        return self.center.distance_from(&at.center);
     }
 }
 
