@@ -21,6 +21,7 @@ pub struct Molecule {
 
 #[allow(dead_code)]
 impl Molecule {
+    /** new() creates a new molecule */
     pub fn new(name: String, remark: String) -> Molecule {
         Molecule {
             name: name,
@@ -30,6 +31,7 @@ impl Molecule {
         }
     }
 
+    /** add_bond() adds an bond to the molecule */
     pub fn add_bond(&mut self, atom_1_idx: usize, atom_2_idx: usize, bond_type: BondType) {
         self.bond_list.push(BondIndex {
             atom_1_idx: atom_1_idx,
@@ -38,6 +40,7 @@ impl Molecule {
         });
     }
 
+    /** get_bond() returns the bond between two atom indices */
     pub fn get_bond(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> Bond {
         // find the bond position
         let bond_idx = self
@@ -54,8 +57,9 @@ impl Molecule {
         };
     }
 
+    /** compute_simple_bonds() computes bonds based on distance between atoms */
     pub fn compute_simple_bonds(&mut self) {
-        const SINGLE_BOND_DIST_THRESHOLD: f32 = 1.5;
+        const SINGLE_BOND_DIST_THRESHOLD: f32 = 1.0;
 
         // iterate through all the atoms and compute bonds based on distance between atoms
         for i in 0..self.atom_list.len() {
@@ -66,10 +70,69 @@ impl Molecule {
 
                 if dist < SINGLE_BOND_DIST_THRESHOLD {
                     self.add_bond(i, j, BondType::SINGLE);
-                    self.add_bond(j, i, BondType::SINGLE);
+                    println!("Added bond between {} and {}", i, j);
                 }
             }
         }
+    }
+
+    /** get_number_of_bonds() returns the number of bonds in the molecule */
+    pub fn get_number_of_bonds(&mut self) -> usize {
+	return self.bond_list.len();
+    }
+
+    /** get_bond_index() returns the index of the bond in the bond list */
+    pub fn get_bond_index(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> usize {
+	return self
+	    .bond_list
+	    .iter()
+	    .position(|bnd| bnd.atom_1_idx == atom_1_idx && bnd.atom_2_idx == atom_2_idx)
+	    .unwrap();
+    }
+
+    /** get_bond_type() returns the bond type of the bond between the two atoms */
+    pub fn get_bond_type(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> BondType {
+	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+	return self.bond_list[bond_idx].bond_type;
+    }
+
+    /** set_bond_type() sets the bond type of the bond between the two atoms */
+    pub fn set_bond_type(&mut self, atom_1_idx: usize, atom_2_idx: usize, bond_type: BondType) {
+	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+        self.bond_list[bond_idx].bond_type = bond_type;
+    }
+
+    /** remove_bond() removes the bond between the two atoms */
+    pub fn remove_bond(&mut self, atom_1_idx: usize, atom_2_idx: usize) {
+	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+	self.bond_list.remove(bond_idx);
+    }
+
+    /** compute bond order of the bond between the two atoms */
+    pub fn compute_bond_order(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> f32 {
+	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+	let bond_type = self.bond_list[bond_idx].bond_type;
+
+	match bond_type {
+	    BondType::SINGLE => {
+		return 1.0;
+            }
+	    BondType::DOUBLE => {
+		return 2.0;
+	    }
+            BondType::AROMATIC => {
+                return 1.5;
+            }
+            BondType::TRIPLE => {
+		return 3.0;
+	    }
+	    BondType::WEAK => {
+		return 0.5;
+	    }
+            BondType::COORDINATE => {
+		return 1.0;
+	    }
+	}
     }
 }
 
@@ -223,5 +286,45 @@ mod tests {
 
         let bond2 = mol.get_bond(0, 2);
         assert_eq!(bond2.bond_type, BondType::SINGLE);
+    }
+
+    #[test]
+    fn molecule_get_number_of_bonds() {
+	let mut mol = super::Molecule::new("H2O".to_string(), "Water Molecule".to_string());
+
+	mol.add_atom(Atom {
+	    center: Point {
+		x: 0.0,
+		y: 0.0,
+		z: 0.0,
+	    },
+	    charge: 0.0,
+	    symbol: "O".to_string(),
+	    remark: "Oxygen Atom".to_string(),
+	});
+	mol.add_atom(Atom {
+	    center: Point {
+		x: 0.758602,
+		y: 0.0,
+		z: 0.504284,
+	    },
+	    charge: 0.0,
+	    symbol: "H".to_string(),
+	    remark: "Hydrogen Atom".to_string(),
+	});
+	mol.add_atom(Atom {
+	    center: Point {
+		x: 0.758602,
+		y: 0.0,
+		z: -0.504284,
+	    },
+	    charge: 0.0,
+	    symbol: "H".to_string(),
+	    remark: "Hydrogen Atom".to_string(),
+	});
+
+	mol.compute_simple_bonds();
+
+	assert_eq!(mol.get_number_of_bonds(), 2);
     }
 }
