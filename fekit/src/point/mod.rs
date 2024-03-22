@@ -1,6 +1,6 @@
 /**
- * Author: V. Ganesh 
- * License: MIT 
+ * Author: V. Ganesh
+ * License: MIT
  */
 
 /** point module, Point struct and methods */
@@ -20,7 +20,7 @@ impl Point {
         return Point {
             x: self.x + v,
             y: self.y + v,
-            z: self.z + v
+            z: self.z + v,
         };
     }
 
@@ -28,7 +28,7 @@ impl Point {
         return Point {
             x: self.x - v,
             y: self.y - v,
-            z: self.z - v
+            z: self.z - v,
         };
     }
 
@@ -36,7 +36,7 @@ impl Point {
         return Point {
             x: self.x * v,
             y: self.y * v,
-            z: self.z * v
+            z: self.z * v,
         };
     }
 
@@ -44,7 +44,7 @@ impl Point {
         return Point {
             x: self.x / v,
             y: self.y / v,
-            z: self.z / v
+            z: self.z / v,
         };
     }
 
@@ -52,7 +52,7 @@ impl Point {
         return Point {
             x: self.x + pt.x,
             y: self.y + pt.y,
-            z: self.z + pt.z
+            z: self.z + pt.z,
         };
     }
 
@@ -60,7 +60,7 @@ impl Point {
         return Point {
             x: self.x - pt.x,
             y: self.y - pt.y,
-            z: self.z - pt.z
+            z: self.z - pt.z,
         };
     }
 
@@ -68,7 +68,7 @@ impl Point {
         return Point {
             x: self.x * pt.x,
             y: self.y * pt.y,
-            z: self.z * pt.z
+            z: self.z * pt.z,
         };
     }
 
@@ -76,7 +76,7 @@ impl Point {
         return Point {
             x: self.x * self.x,
             y: self.y * self.y,
-            z: self.z * self.z
+            z: self.z * self.z,
         };
     }
 
@@ -84,7 +84,7 @@ impl Point {
         return Point {
             x: self.x / pt.x,
             y: self.y / pt.y,
-            z: self.z / pt.z
+            z: self.z / pt.z,
         };
     }
 
@@ -100,7 +100,11 @@ impl Point {
 mod tests {
     #[test]
     fn point_init() {
-        let point = super::Point { x: 0.0, y: 0.0, z: 0.0 };
+        let point = super::Point {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
 
         assert_eq!(point.x, 0.0);
         assert_eq!(point.y, 0.0);
@@ -109,7 +113,11 @@ mod tests {
 
     #[test]
     fn point_sclar_fn() {
-        let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 };
+        let mut pt1 = super::Point {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
         let v1 = 1.0;
 
         let add_pt = pt1.add(v1);
@@ -122,7 +130,11 @@ mod tests {
         assert_eq!(sub_pt.y, -1.0);
         assert_eq!(sub_pt.z, -1.0);
 
-        let mut pt2 = super::Point { x: 1.0, y: 0.0, z: -1.0 };
+        let mut pt2 = super::Point {
+            x: 1.0,
+            y: 0.0,
+            z: -1.0,
+        };
         let v2 = 2.0;
 
         let mul_pt = pt2.mul(v2);
@@ -138,8 +150,16 @@ mod tests {
 
     #[test]
     fn point_vec_fn() {
-        let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 };
-        let v1 = super::Point { x: 1.0, y: 1.0, z: 1.0 }; 
+        let mut pt1 = super::Point {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let v1 = super::Point {
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+        };
 
         let add_pt = pt1.add_point(&v1);
         assert_eq!(add_pt.x, 1.0);
@@ -151,8 +171,16 @@ mod tests {
         assert_eq!(sub_pt.y, -1.0);
         assert_eq!(sub_pt.z, -1.0);
 
-        let mut pt2 = super::Point { x: 1.0, y: 0.0, z: -1.0 };
-        let v2 = super::Point { x: 2.0, y: 2.0, z: 2.0 };
+        let mut pt2 = super::Point {
+            x: 1.0,
+            y: 0.0,
+            z: -1.0,
+        };
+        let v2 = super::Point {
+            x: 2.0,
+            y: 2.0,
+            z: 2.0,
+        };
 
         let mul_pt = pt2.mul_point(&v2);
         assert_eq!(mul_pt.x, 2.0);
@@ -167,13 +195,21 @@ mod tests {
 
     #[test]
     fn point_dist_fn() {
-        let mut pt1 = super::Point { x: 0.0, y: 0.0, z: 0.0 }; 
-        let mut pt2 = super::Point { x: 1.0, y: 0.0, z: 0.0 };
+        let mut pt1 = super::Point {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        let mut pt2 = super::Point {
+            x: 1.0,
+            y: 0.0,
+            z: 0.0,
+        };
 
         let sq_pt = pt2.sqr_point();
         assert_eq!(sq_pt.x, 1.0);
         assert_eq!(sq_pt.y, 0.0);
-        assert_eq!(sq_pt.z, 0.0); 
+        assert_eq!(sq_pt.z, 0.0);
 
         let dist = pt1.distance_from(&pt2);
         assert_eq!(dist, 1.0);
