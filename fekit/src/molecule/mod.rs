@@ -5,10 +5,10 @@
 
 /** molecule module consists of basic structs: Atom, AtomGroup, Molecule */
 use crate::atom::Atom;
+use crate::atom::AtomOperations;
 use crate::bond::Bond;
 use crate::bond::BondIndex;
 use crate::bond::BondType;
-use crate::atom::AtomOperations;
 
 #[allow(dead_code)]
 pub struct Molecule {
@@ -67,7 +67,6 @@ impl Molecule {
                 let at_j_center = self.atom_list[j].center;
                 let dist = self.atom_list[i].center.distance_from(&at_j_center);
 
-
                 if dist < SINGLE_BOND_DIST_THRESHOLD {
                     self.add_bond(i, j, BondType::SINGLE);
                     println!("Added bond between {} and {}", i, j);
@@ -78,66 +77,66 @@ impl Molecule {
 
     /** get_number_of_bonds() returns the number of bonds in the molecule */
     pub fn get_number_of_bonds(&mut self) -> usize {
-	return self.bond_list.len();
+        return self.bond_list.len();
     }
 
     /** get_bond_index() returns the index of the bond in the bond list */
     pub fn get_bond_index(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> usize {
-	return self
-	    .bond_list
-	    .iter()
-	    .position(|bnd| bnd.atom_1_idx == atom_1_idx && bnd.atom_2_idx == atom_2_idx)
-	    .unwrap();
+        return self
+            .bond_list
+            .iter()
+            .position(|bnd| bnd.atom_1_idx == atom_1_idx && bnd.atom_2_idx == atom_2_idx)
+            .unwrap();
     }
 
     /** get_bond_type() returns the bond type of the bond between the two atoms */
     pub fn get_bond_type(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> BondType {
-	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
-	return self.bond_list[bond_idx].bond_type;
+        let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+        return self.bond_list[bond_idx].bond_type;
     }
 
     /** set_bond_type() sets the bond type of the bond between the two atoms */
     pub fn set_bond_type(&mut self, atom_1_idx: usize, atom_2_idx: usize, bond_type: BondType) {
-	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+        let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
         self.bond_list[bond_idx].bond_type = bond_type;
     }
 
     /** remove_bond() removes the bond between the two atoms */
     pub fn remove_bond(&mut self, atom_1_idx: usize, atom_2_idx: usize) {
-	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
-	self.bond_list.remove(bond_idx);
+        let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+        self.bond_list.remove(bond_idx);
     }
 
     /** compute bond order of the bond between the two atoms */
     pub fn compute_bond_order(&mut self, atom_1_idx: usize, atom_2_idx: usize) -> f32 {
-	let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
-	let bond_type = self.bond_list[bond_idx].bond_type;
+        let bond_idx = self.get_bond_index(atom_1_idx, atom_2_idx);
+        let bond_type = self.bond_list[bond_idx].bond_type;
 
-	match bond_type {
-	    BondType::SINGLE => {
-		return 1.0;
+        match bond_type {
+            BondType::SINGLE => {
+                return 1.0;
             }
-	    BondType::DOUBLE => {
-		return 2.0;
-	    }
+            BondType::DOUBLE => {
+                return 2.0;
+            }
             BondType::AROMATIC => {
                 return 1.5;
             }
             BondType::TRIPLE => {
-		return 3.0;
-	    }
-	    BondType::WEAK => {
-		return 0.5;
-	    }
+                return 3.0;
+            }
+            BondType::WEAK => {
+                return 0.5;
+            }
             BondType::COORDINATE => {
-		return 1.0;
-	    }
-	}
+                return 1.0;
+            }
+        }
     }
 }
 
 #[allow(dead_code)]
-impl AtomOperations for Molecule { 
+impl AtomOperations for Molecule {
     fn add_atom(&mut self, atom: Atom) {
         self.atom_list.push(atom);
     }
@@ -185,9 +184,9 @@ impl AtomOperations for Molecule {
 #[cfg(test)]
 mod tests {
     use crate::atom::Atom;
+    use crate::atom::AtomOperations;
     use crate::bond::BondType;
     use crate::point::Point;
-    use crate::atom::AtomOperations;
 
     #[test]
     fn molecule_init() {
@@ -290,41 +289,41 @@ mod tests {
 
     #[test]
     fn molecule_get_number_of_bonds() {
-	let mut mol = super::Molecule::new("H2O".to_string(), "Water Molecule".to_string());
+        let mut mol = super::Molecule::new("H2O".to_string(), "Water Molecule".to_string());
 
-	mol.add_atom(Atom {
-	    center: Point {
-		x: 0.0,
-		y: 0.0,
-		z: 0.0,
-	    },
-	    charge: 0.0,
-	    symbol: "O".to_string(),
-	    remark: "Oxygen Atom".to_string(),
-	});
-	mol.add_atom(Atom {
-	    center: Point {
-		x: 0.758602,
-		y: 0.0,
-		z: 0.504284,
-	    },
-	    charge: 0.0,
-	    symbol: "H".to_string(),
-	    remark: "Hydrogen Atom".to_string(),
-	});
-	mol.add_atom(Atom {
-	    center: Point {
-		x: 0.758602,
-		y: 0.0,
-		z: -0.504284,
-	    },
-	    charge: 0.0,
-	    symbol: "H".to_string(),
-	    remark: "Hydrogen Atom".to_string(),
-	});
+        mol.add_atom(Atom {
+            center: Point {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            charge: 0.0,
+            symbol: "O".to_string(),
+            remark: "Oxygen Atom".to_string(),
+        });
+        mol.add_atom(Atom {
+            center: Point {
+                x: 0.758602,
+                y: 0.0,
+                z: 0.504284,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "Hydrogen Atom".to_string(),
+        });
+        mol.add_atom(Atom {
+            center: Point {
+                x: 0.758602,
+                y: 0.0,
+                z: -0.504284,
+            },
+            charge: 0.0,
+            symbol: "H".to_string(),
+            remark: "Hydrogen Atom".to_string(),
+        });
 
-	mol.compute_simple_bonds();
+        mol.compute_simple_bonds();
 
-	assert_eq!(mol.get_number_of_bonds(), 2);
+        assert_eq!(mol.get_number_of_bonds(), 2);
     }
 }

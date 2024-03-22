@@ -1,12 +1,11 @@
-/**
- * Author: V. Ganesh 
- * License: MIT 
- */
-
-pub mod point;
 pub mod atom;
 pub mod bond;
 pub mod molecule;
+/**
+ * Author: V. Ganesh
+ * License: MIT
+ */
+pub mod point;
 
 mod my_math {
     #[allow(dead_code)]
@@ -17,7 +16,7 @@ mod my_math {
 
 #[cfg(test)]
 mod tests {
-    use super::my_math::add as add;
+    use super::my_math::add;
 
     #[test]
     fn it_works() {

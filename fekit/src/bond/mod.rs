@@ -1,8 +1,7 @@
 /**
- * Author: V. Ganesh 
- * License: MIT 
+ * Author: V. Ganesh
+ * License: MIT
  */
-
 use crate::atom::Atom;
 
 /** BondType and Bond structs and methods */
@@ -38,9 +37,9 @@ pub struct BondIndex {
 #[cfg(test)]
 mod tests {
     use crate::atom::Atom;
-    use crate::point::Point;
     use crate::bond::Bond;
     use crate::bond::BondType;
+    use crate::point::Point;
 
     #[test]
     fn bond_init() {
@@ -69,7 +68,7 @@ mod tests {
         let bond = Bond {
             atom_a: atom_1,
             atom_b: atom_2,
-            bond_type: BondType::SINGLE
+            bond_type: BondType::SINGLE,
         };
 
         assert_eq!(bond.atom_a.center.x, 0.0);

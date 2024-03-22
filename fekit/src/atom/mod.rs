@@ -1,8 +1,7 @@
 /**
- * Author: V. Ganesh 
- * License: MIT 
+ * Author: V. Ganesh
+ * License: MIT
  */
-
 use crate::point::Point;
 
 /** Atom is the primary struct used to define an AtomGroup or a Molecule */
@@ -90,7 +89,7 @@ impl AtomOperations for AtomGroup {
             center: removed_atom.center,
             symbol: removed_atom.symbol.to_string(),
             charge: removed_atom.charge,
-            remark: removed_atom.remark.to_string()
+            remark: removed_atom.remark.to_string(),
         };
     }
 
@@ -112,8 +111,8 @@ impl AtomOperations for AtomGroup {
 /** Unit tests for the above module */
 #[cfg(test)]
 mod tests {
-    use crate::point::Point;
     use super::AtomOperations;
+    use crate::point::Point;
 
     #[test]
     fn atom_init() {
@@ -156,12 +155,11 @@ mod tests {
             charge: 0.0,
             symbol: "H".to_string(),
             remark: "A Hydrogen Atom".to_string(),
-        };  
+        };
 
         let dist = at1.distance_from(at2);
-        assert_eq!(dist, 1.0);        
+        assert_eq!(dist, 1.0);
     }
-
 
     #[test]
     fn atom_group_init() {
